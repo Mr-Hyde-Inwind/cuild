@@ -72,7 +72,18 @@ void cmd_append_null(Cmd *cmd, ...) {
     va_end(args);
 }
 
+void render_cmd(String_Builder *sb, const Cmd *cmd) {
+    for (size_t i = 0; i < cmd->count; i++) {
+        if (i) da_append_many(sb, " ", 1);
+        da_append_many(sb, cmd->items[i], strlen(cmd->items[i]));
+    }
+}
+
 Pid cmd_run_async(Cmd *cmd) {
+    String_Builder sb = {0};
+    render_cmd(&sb, cmd);
+    cstr_append_null(&sb);
+    fprintf(stdout, "[CMD] %s\n", sb.items);
     int pid = -1;
     if ((pid = fork()) < 0) {
         fprintf(stderr, "[ERROR] Execute cmd failed with error %s\n", strerror(errno));

@@ -1,2 +1,2 @@
-test: test.c
-	gcc -g -Wall -Wextra -o test test.c
+cuild: cuild.c
+	gcc -g -Wall -Wextra -o cuild cuild.c
